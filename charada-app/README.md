@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+# 2048 Puzzle Game
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A classic 2048 puzzle game built with React Native and Expo.
 
-## Get started
+## 🎮 About
 
-1. Install dependencies
+2048 is a sliding block puzzle game where you combine numbered tiles to create a tile with the number 2048. Swipe to move tiles, when two tiles with the same number touch, they merge into one!
 
-   ```bash
-   npm install
-   ```
+### How to Play
 
-2. Start the app
+- **Swipe** up, down, left, or right to move all tiles
+- When two tiles with the same number touch, they **merge into one**
+- After each move, a new tile appears randomly
+- **Goal**: Create a tile with the number 2048
+- **Game Over**: When no more moves are possible
 
-   ```bash
-   npx expo start
-   ```
+## 📱 Technologies
 
-In the output, you'll find options to open the app in a
+- **Expo 54** - React Native framework
+- **React Native 0.81** - Native engine
+- **TypeScript** - Type-safe development
+- **React Native Reanimated** - Smooth animations
+- **React Native Gesture Handler** - Touch gestures
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🗂️ Project Structure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+puzzle-2048/
+├── app/                      # Routes (Expo Router)
+│   ├── index.tsx            # Main menu
+│   └── (game)/              # Game screens
+│       └── play.tsx         # 2048 game screen
+│
+├── components/              # Reusable components
+│   ├── ui/                 # UI components
+│   └── game2048/           # 2048 game components
+│       ├── Game2048.tsx    # Main game component
+│       ├── Board2048.tsx   # Game board
+│       └── Tile2048.tsx    # Tile component
+│
+└── hooks/                  # Custom hooks
+    └── use2048.ts          # Game logic hook
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🚀 Installation
 
-## Learn more
+```bash
+# Install dependencies
+npm install
 
-To learn more about developing your project with Expo, look at the following resources:
+# Start development server
+npm start
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Run on specific platform
+npm run android
+npm run ios
+npm run web
+```
 
-## Join the community
+## 📦 Features
 
-Join our community of developers creating universal apps.
+- ✅ Smooth swipe gestures
+- ✅ Beautiful animations
+- ✅ Score tracking
+- ✅ Best score persistence
+- ✅ Responsive design
+- ✅ Cross-platform (iOS, Android, Web)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🎯 Game Features
+
+- Swipe-based controls
+- Animated tile movements
+- Score system with best score
+- Game over detection
+- Win detection (2048 tile)
+- New game option
+
+## 📄 License
+
+MIT

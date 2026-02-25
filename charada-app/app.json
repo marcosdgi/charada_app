@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "charada-app",
-    "slug": "charada-app",
+    "name": "2048 Puzzle Game",
+    "slug": "puzzle-2048",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "charadaapp",
+    "scheme": "puzzle2048",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.puzzle2048game"
     },
     "web": {
       "output": "static",
@@ -38,7 +39,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
