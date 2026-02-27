@@ -41,6 +41,6 @@ export default class AuthController {
   async me({ auth, response }: HttpContext) {
     const user = auth.getUserOrFail()
 
-    return response.ok({ user })
+    return response.ok(user)
   }
 }

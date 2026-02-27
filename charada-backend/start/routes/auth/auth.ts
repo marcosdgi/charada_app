@@ -15,4 +15,4 @@ router
       })
       .use(middleware.auth())
   })
-  .prefix('/auth')
+  .prefix('api/v1/auth')
