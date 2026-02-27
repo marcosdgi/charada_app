@@ -40,7 +40,7 @@ export default class AuthController {
 
   async me({ auth, response }: HttpContext) {
     const user = auth.getUserOrFail()
-
+    await user.load('role')
     return response.ok(user)
   }
 }
