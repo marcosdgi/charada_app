@@ -2,5 +2,4 @@
 buildCommand = "npm install && npm run build"
 
 [deploy]
-startCommand = "node build/bin/server.js"
-releaseCommand = "node build/ace migration:run --force && node build/ace db:seed --force"
+startCommand = "node build/ace migration:run --force && node build/ace db:seed --force && node build/bin/server.js"
