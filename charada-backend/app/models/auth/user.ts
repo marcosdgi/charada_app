@@ -13,6 +13,8 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 })
 
 export default class User extends compose(BaseModel, AuthFinder) {
+  static accessTokens = DbAccessTokensProvider.forModel(User)
+
   @column({ isPrimary: true })
   declare id: number
 
@@ -37,5 +39,4 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @belongsTo(() => Role)
   declare role: BelongsTo<typeof Role>
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
 }
