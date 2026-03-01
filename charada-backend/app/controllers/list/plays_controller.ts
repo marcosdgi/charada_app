@@ -12,6 +12,21 @@ export default class PlaysController {
         return response.created(play)
     }
 
+    async update({ params, response }: HttpContext) {
+        const id = params.id
+        const play = await Play.findOrFail(id)
+        await play.merge(params).save()
+        return response.ok(play)
+    }
+
+
+    async delete({ params, response }: HttpContext) {
+        const id = params.id
+        const play = await Play.findOrFail(id)
+        await play.delete()
+        return response.ok({ message: 'Jugada eliminada correctamente' })
+    }
+
     async listPlaysByDate({ params, request, response }: HttpContext) {
         const page = request.input('page', 1)
         const date = params.date
