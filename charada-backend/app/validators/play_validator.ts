@@ -15,6 +15,17 @@ const timeRestriction = vine.createRule<Record<string, unknown>>((_value, _optio
   }
 })
 
+export const updatePlayValidator = vine.compile(
+  vine
+    .object({
+      fijo: vine.number().min(1).max(99),
+      corrido: vine.number().min(1).max(99).nullable().optional(),
+      parle: vine.number().min(1).max(99).nullable().optional(),
+      amount: vine.number().positive(),
+    })
+    .use(timeRestriction({}))
+)
+
 export const createPlayValidator = vine.compile(
   vine
     .object({

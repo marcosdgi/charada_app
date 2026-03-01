@@ -1,6 +1,6 @@
 import Play from '#models/lists/play'
 import type { HttpContext } from '@adonisjs/core/http'
-import { createPlayValidator } from '#validators/play_validator'
+import { createPlayValidator, updatePlayValidator } from '#validators/play_validator'
 
 export default class PlaysController {
 
@@ -12,10 +12,11 @@ export default class PlaysController {
         return response.created(play)
     }
 
-    async update({ params, response }: HttpContext) {
+    async update({ params, request, response }: HttpContext) {
         const id = params.id
+        const payload = await request.validateUsing(updatePlayValidator)
         const play = await Play.findOrFail(id)
-        await play.merge(params).save()
+        await play.merge(payload).save()
         return response.ok(play)
     }
 
