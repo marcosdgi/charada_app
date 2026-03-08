@@ -7,7 +7,7 @@ export default class ListsController {
         const bossId = params.bossId
 
         const list = await List.query()
-            .where('boss_id', bossId)
+            .where('user_id', bossId)
             .preload('plays')
             .firstOrFail()
         return response.ok(list)
