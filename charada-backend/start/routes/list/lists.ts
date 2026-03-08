@@ -5,6 +5,7 @@ const ListsController = () => import('#controllers/list/lists_controller')
 
 router
   .group(() => {
+    router.post('/', [ListsController, 'createList'])
     router.get('/boss/:bossId', [ListsController, 'getListByBossId']).where('bossId', router.matchers.number())
   })
   .prefix('api/v1/lists')

@@ -13,5 +13,11 @@ export default class ListsController {
         return response.ok(list)
     }
 
+    async createList({ auth, response }: HttpContext) {
+        const user = auth.getUserOrFail()
+        const list = await List.create({ userId: user.id })
+        return response.created(list)
+    }
+
 
 }

@@ -46,6 +46,7 @@ export default class PlaysController {
         const plays = await Play.query()
             .where('list_id', listId)
             .preload('typePlay')
+            .orderBy('date', 'desc')
             .paginate(page, this.PAGES)
 
         return response.ok(plays)
