@@ -3,11 +3,11 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ListsController {
 
-    async getListByBossId({ params, response }: HttpContext) {
-        const bossId = params.bossId
+    async getListByUserId({ params, response }: HttpContext) {
+        const userId = params.userId
 
         const list = await List.query()
-            .where('boss_id', bossId)
+            .where('user_id', userId)
             .preload('plays')
             .firstOrFail()
         return response.ok(list)
