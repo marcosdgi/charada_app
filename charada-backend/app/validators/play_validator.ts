@@ -43,6 +43,7 @@ export const createPlayValidator = vine.compile(
       corrido: vine.number().min(1).max(99).nullable().optional(),
       parle: vine.number().min(1).max(99).nullable().optional(),
       amount: vine.number().positive(),
+      name: vine.string().trim(),
       date: vine.date().transform((value) => DateTime.fromJSDate(value)),
     })
     .use(timeRestriction({}))

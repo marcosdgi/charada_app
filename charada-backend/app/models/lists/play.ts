@@ -14,6 +14,9 @@ export default class Play extends BaseModel {
   declare listId: number
 
   @column()
+  declare name: string
+
+  @column()
   declare typePlayId: number
 
   // fijo:    solo 'fijo'                     (01–99)
