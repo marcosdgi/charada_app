@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "Charada-app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3333",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "list-play",
+      "item": [
+        {
+          "name": "Lists",
+          "item": [
+            {
+              "name": "Create List",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": "{{baseUrl}}/api/v1/lists",
+                "description": "Crea una nueva lista asociada al usuario autenticado. No requiere body."
+              }
+            },
+            {
+              "name": "Get List by Boss ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": "{{baseUrl}}/api/v1/lists/boss/1",
+                "description": "Retorna la lista de un boss con sus jugadas. Reemplaza '1' con el bossId real."
+              }
+            }
+          ]
+        },
+        {
+          "name": "Plays",
+          "item": [
+            {
+              "name": "Create Play - fijo",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "url": "{{baseUrl}}/api/v1/plays",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"listId\": 1,\n  \"typePlayId\": 1,\n  \"fijo\": 15,\n  \"amount\": 100,\n  \"date\": \"2026-03-07\"\n}"
+                },
+                "description": "Solo campo fijo requerido. corrido y parle son opcionales (enviar null o no incluirlos)."
+              }
+            },
+            {
+              "name": "Create Play - corrido",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "url": "{{baseUrl}}/api/v1/plays",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"listId\": 1,\n  \"typePlayId\": 2,\n  \"fijo\": 15,\n  \"corrido\": 30,\n  \"amount\": 200,\n  \"date\": \"2026-03-07\"\n}"
+                },
+                "description": "Fijo + corrido."
+              }
+            },
+            {
+              "name": "Create Play - parle",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "url": "{{baseUrl}}/api/v1/plays",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"listId\": 1,\n  \"typePlayId\": 3,\n  \"fijo\": 15,\n  \"corrido\": 30,\n  \"parle\": 45,\n  \"amount\": 300,\n  \"date\": \"2026-03-07\"\n}"
+                },
+                "description": "Fijo + corrido + parle."
+              }
+            },
+            {
+              "name": "Update Play",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "url": "{{baseUrl}}/api/v1/plays/1",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fijo\": 20,\n  \"corrido\": null,\n  \"parle\": null,\n  \"amount\": 150\n}"
+                },
+                "description": "Actualiza una jugada por ID. Reemplaza '1' en la URL con el playId real."
+              }
+            },
+            {
+              "name": "Delete Play",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": "{{baseUrl}}/api/v1/plays/1",
+                "description": "Elimina una jugada por ID. Reemplaza '1' en la URL con el playId real."
+              }
+            },
+            {
+              "name": "List Plays by Date",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/plays/date/2026-03-07?page=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "plays", "date", "2026-03-07"],
+                  "query": [
+                    { "key": "page", "value": "1" }
+                  ]
+                },
+                "description": "Retorna jugadas paginadas filtradas por fecha (YYYY-MM-DD)."
+              }
+            },
+            {
+              "name": "List Plays by List ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/plays/list/1?page=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "plays", "list", "1"],
+                  "query": [
+                    { "key": "page", "value": "1" }
+                  ]
+                },
+                "description": "Retorna jugadas paginadas de una lista específica. Reemplaza '1' con el listId real."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

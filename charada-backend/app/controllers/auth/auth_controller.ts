@@ -43,4 +43,19 @@ export default class AuthController {
     await user.load('role')
     return response.ok(user)
   }
+
+  async getEmployeeByBossId({ params, response }: HttpContext) {
+    const users = await User.query()
+      .where(query => {
+        query.whereNotNull('boss_id')
+          .andWhere('boss_id', params.bossId)
+      })
+      .preload('lists', list => {
+        list.preload('plays', play => {
+          play.preload('typePlay')
+        })
+      })
+
+    return response.ok(users)
+  }
 }

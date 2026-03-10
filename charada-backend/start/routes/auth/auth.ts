@@ -14,5 +14,7 @@ router
         router.get('/me', [AuthController, 'me'])
       })
       .use(middleware.auth())
+
+    router.get('employees/:bossId', [AuthController, 'getEmployeeByBossId']).where('bossId', router.matchers.number())
   })
   .prefix('api/v1/auth')

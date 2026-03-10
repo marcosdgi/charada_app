@@ -8,3 +8,5 @@
 */
 
 import './routes/auth/auth.js'
+import './routes/list/lists.js'
+import './routes/list/plays.js'
