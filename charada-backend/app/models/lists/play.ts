@@ -31,7 +31,7 @@ export default class Play extends BaseModel {
   @column()
   declare amount: number
 
-  @column.date()
+  @column.dateTime()
   declare date: DateTime
 
   @column.dateTime({ autoCreate: true })
@@ -43,6 +43,8 @@ export default class Play extends BaseModel {
   @belongsTo(() => List)
   declare list: BelongsTo<typeof List>
 
-  @belongsTo(() => PlayType)
+  @belongsTo(() => PlayType, {
+    foreignKey: 'typePlayId'
+  })
   declare typePlay: BelongsTo<typeof PlayType>
 }
