@@ -18,9 +18,10 @@ export function GluestackUIProvider({
   const { colorScheme, setColorScheme } = useColorScheme();
 
   useEffect(() => {
-    setColorScheme(mode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+    if (colorScheme !== mode) {
+      setColorScheme(mode);
+    }
+  }, [mode, colorScheme, setColorScheme]);
 
   return (
     <View
