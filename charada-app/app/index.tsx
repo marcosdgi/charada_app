@@ -1,110 +1,139 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { AppButton } from "@/components/app/app-button";
+import { Box } from "@/components/ui/box";
+import { Pressable } from "@/components/ui/pressable";
+import { Text } from "@/components/ui/text";
+import { useRouter } from "expo-router";
+import React, { useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const SECRET_TAPS_NEEDED = 2;
+const SECRET_LONG_PRESS_MS = 3000;
 
 export default function Index() {
   const router = useRouter();
+  const tapCountRef = useRef(0);
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resetTapsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipNextPressRef = useRef(false);
+
+  const clearLongPressTimer = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  const clearResetTapsTimer = () => {
+    if (resetTapsTimerRef.current) {
+      clearTimeout(resetTapsTimerRef.current);
+      resetTapsTimerRef.current = null;
+    }
+  };
+
+  const onVersionPress = () => {
+    if (skipNextPressRef.current) {
+      skipNextPressRef.current = false;
+      return;
+    }
+    if (tapCountRef.current < SECRET_TAPS_NEEDED) {
+      clearResetTapsTimer();
+      tapCountRef.current += 1;
+      if (tapCountRef.current < SECRET_TAPS_NEEDED) {
+        resetTapsTimerRef.current = setTimeout(() => {
+          tapCountRef.current = 0;
+          resetTapsTimerRef.current = null;
+        }, 2000);
+      }
+    }
+  };
+
+  const onVersionPressIn = () => {
+    if (tapCountRef.current === SECRET_TAPS_NEEDED) {
+      longPressTimerRef.current = setTimeout(() => {
+        longPressTimerRef.current = null;
+        skipNextPressRef.current = true;
+        tapCountRef.current = 0;
+        router.replace("/bolita/home");
+      }, SECRET_LONG_PRESS_MS);
+    }
+  };
+
+  const onVersionPressOut = () => {
+    clearLongPressTimer();
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.title}>2048</Text>
-          <Text style={styles.subtitle}>Join the tiles, get to 2048!</Text>
-        </View>
-
-        <View style={styles.menuContainer}>
-          <TouchableOpacity
-            style={styles.playButton}
-            onPress={() => router.push('/(game)/play')}
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#faf8ef" }}
+      edges={["top"]}
+    >
+      <Box className="flex-1 justify-between px-6 pt-4 pb-8">
+        <Box />
+        <Box
+          className="items-center w-full flex-shrink-0"
+          style={{ overflow: "visible" }}
+        >
+          <Text
+            className="text-center font-bold mb-1"
+            style={{
+              fontSize: 72,
+              lineHeight: 86,
+              color: "#776e65",
+            }}
           >
-            <Text style={styles.playButtonText}>Play</Text>
-          </TouchableOpacity>
+            2048
+          </Text>
+          <Text
+            className="text-center mb-10"
+            style={{ fontSize: 18, color: "#776e65", opacity: 0.85 }}
+          >
+            Join the tiles, get to 2048!
+          </Text>
 
-          <View style={styles.instructions}>
-            <Text style={styles.instructionText}>
-              Swipe to move tiles. When two tiles with the same number touch, they merge into one!
+          <Box
+            className="gap-5 w-full max-w-sm p-6 rounded-2xl"
+            style={{
+              backgroundColor: "#fff",
+              borderWidth: 1,
+              borderColor: "rgba(119, 110, 101, 0.15)",
+              shadowColor: "#bbada0",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.25,
+              shadowRadius: 8,
+              elevation: 4,
+            }}
+          >
+            <AppButton
+              className="h-14 rounded-xl"
+              textClassName="text-lg font-bold"
+              label="Play"
+              onPress={() => router.push("/(game)/play")}
+            />
+            <Text
+              size="sm"
+              className="text-center leading-5"
+              style={{ color: "#776e65", opacity: 0.9 }}
+            >
+              Swipe to move tiles. When two tiles with the same number touch,
+              they merge into one!
             </Text>
-          </View>
-        </View>
+          </Box>
+        </Box>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Classic Puzzle Game • v1.0.0</Text>
-        </View>
-      </View>
+        <Pressable
+          className="self-center p-3"
+          onPress={onVersionPress}
+          onPressIn={onVersionPressIn}
+          onPressOut={onVersionPressOut}
+        >
+          <Text
+            className="text-sm"
+            style={{ color: "#776e65", opacity: 0.5 }}
+          >
+            Classic Puzzle Game • v1.0.0
+          </Text>
+        </Pressable>
+      </Box>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#faf8ef',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginTop: 60,
-  },
-  title: {
-    fontSize: 80,
-    fontWeight: 'bold',
-    color: '#776e65',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#776e65',
-    opacity: 0.7,
-  },
-  menuContainer: {
-    gap: 24,
-  },
-  playButton: {
-    backgroundColor: '#8f7a66',
-    paddingVertical: 20,
-    paddingHorizontal: 60,
-    borderRadius: 8,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  playButtonText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#f9f6f2',
-  },
-  instructions: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  instructionText: {
-    fontSize: 16,
-    color: '#776e65',
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-  footer: {
-    alignItems: 'center',
-    paddingBottom: 20,
-  },
-  footerText: {
-    fontSize: 14,
-    color: '#776e65',
-    opacity: 0.5,
-  },
-});
