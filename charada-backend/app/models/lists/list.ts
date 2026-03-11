@@ -13,6 +13,9 @@ export default class List extends BaseModel {
   @column()
   declare userId: number
 
+  @column()
+  declare identification: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
